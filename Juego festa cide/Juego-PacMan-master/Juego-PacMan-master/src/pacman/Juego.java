@@ -72,11 +72,11 @@ public class Juego extends JFrame {
     // Imágenes.
     private ImageIcon pacmanImagen;
     private final ImageIcon coleccionImgFantasmas[] = {
-            new ImageIcon(getClass().getResource("/recursos/fantasma1.png")),
-            new ImageIcon(getClass().getResource("/recursos/fantasma2.png")),
-            new ImageIcon(getClass().getResource("/recursos/fantasma3.png")),
-            new ImageIcon(getClass().getResource("/recursos/fantasma4.png")),
-            new ImageIcon(getClass().getResource("/recursos/fantasma7.png")) };
+            escalarImg(new ImageIcon(getClass().getResource("/recursos/fantasma1.png"))),
+            escalarImg(new ImageIcon(getClass().getResource("/recursos/fantasma2.png"))),
+            escalarImg(new ImageIcon(getClass().getResource("/recursos/fantasma3.png"))),
+            escalarImg(new ImageIcon(getClass().getResource("/recursos/fantasma4.png"))),
+            escalarImg(new ImageIcon(getClass().getResource("/recursos/fantasmaV.png"))) };
     private final ImageIcon imgCopa = new ImageIcon(getClass().getResource("/recursos/copa.png"));
     private final ImageIcon imgPacManArriba = new ImageIcon(getClass().getResource("/recursos/pacman_arriba.png"));
     private final ImageIcon imgPacManAbajo = new ImageIcon(getClass().getResource("/recursos/pacman_abajo.png"));
@@ -92,9 +92,7 @@ public class Juego extends JFrame {
             getClass().getResource("/recursos/pacman_dcha_cerrado.png"));
     private final ImageIcon imgPacManMuerto = new ImageIcon(getClass().getResource("/recursos/pacman_muerto.png"));
     private final ImageIcon imgPared = new ImageIcon(getClass().getResource("/recursos/pared.png"));
-    private final Image imgP = imgPared.getImage();
-    private final Image imgPEscalada = imgP.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
-    private final ImageIcon imgParedFinal = new ImageIcon(imgPEscalada);
+    private final ImageIcon imgParedFinal = escalarImg(imgPared);
     private final ImageIcon imgVidaPacman = new ImageIcon(getClass().getResource("/recursos/pacman_vida.png"));
     private final ImageIcon imgVidaPacmanGastada = new ImageIcon(
             getClass().getResource("/recursos/pacman_vida_gastada.png"));
@@ -455,7 +453,7 @@ public class Juego extends JFrame {
                     etiqueta = (JLabel) panelCentral.getComponent(indiceGrid);
                     int i = getIDFantasma(y, x);
                     if (this.fantasmasVulnerables) {
-                        etiqueta.setIcon(coleccionImgFantasmas[6]);
+                        etiqueta.setIcon(coleccionImgFantasmas[4]);
                     } else {
                         if (i > coleccionImgFantasmas.length - 1) {
                             etiqueta.setIcon(coleccionImgFantasmas[0]);
@@ -959,9 +957,12 @@ public class Juego extends JFrame {
             return (byte) rand.nextInt(valorLimite);
         }
     }
-    public void escalarFantasmas(ImageIcon img){
-        for(int i=0;i>coleccionImgFantasmas.length;i++){
-            
-        }
+
+    //funcion para escalar las imagenes
+    public static ImageIcon escalarImg(ImageIcon img){
+        Image imgI = img.getImage();
+        Image imgIEscalada = imgI.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+        ImageIcon iconIEscalado = new ImageIcon(imgIEscalada);
+        return iconIEscalado;
     }
 }
