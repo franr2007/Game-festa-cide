@@ -79,8 +79,8 @@ public class PantallaBienvenida extends JFrame {
         this.btnSalir = new JButton("Salir");
         this.imgIcono = new ImageIcon(getClass().getResource("/recursos/logo.png"));
         this.imgPacman = new ImageIcon(getClass().getResource("/recursos/pacman_dcha.png"));
-        this.imgFantasma1 = new ImageIcon(getClass().getResource("/recursos/fantasma4.png"));
-        this.imgFantasma2 = new ImageIcon(getClass().getResource("/recursos/fantasma7.png"));
+        this.imgFantasma1 = Juego.escalarImg(new ImageIcon(getClass().getResource("/recursos/fantasma4.png")));
+        this.imgFantasma2 = Juego.escalarImg(new ImageIcon(getClass().getResource("/recursos/fantasmaV.png"))); 
         this.imgCopa = new ImageIcon(getClass().getResource("/recursos/copa.png"));
         this.lblPuntuacionMaxima = new JLabel();
         this.lblPortada = new JLabel(coleccionPortadas[this.rand.nextInt(coleccionPortadas.length)]);
