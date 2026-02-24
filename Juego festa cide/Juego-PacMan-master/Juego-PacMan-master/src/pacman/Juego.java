@@ -98,8 +98,8 @@ public class Juego extends JFrame {
             getClass().getResource("/recursos/pacman_vida_gastada.png"));
     private final ImageIcon coleccionImgPuntos[] = {
         new ImageIcon(getClass().getResource("/recursos/suelo.png")),
-        new ImageIcon(getClass().getResource("/recursos/Captura_de_pantalla_2026-02-23_171413-removebg-preview.png")),
-        new ImageIcon(getClass().getResource("/recursos/Captura_de_pantalla_2026-02-23_171526-removebg-preview.png"))
+        escalarImg(new ImageIcon(getClass().getResource("/recursos/Captura_de_pantalla_2026-02-23_171413-removebg-preview.png"))),
+        escalarImg(new ImageIcon(getClass().getResource("/recursos/image-removebg-preview.png")))
     };
 
     // Otros.
