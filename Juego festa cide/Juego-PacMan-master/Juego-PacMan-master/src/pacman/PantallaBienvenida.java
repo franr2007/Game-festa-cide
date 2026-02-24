@@ -110,7 +110,7 @@ public class PantallaBienvenida extends JFrame {
         imgIcono = new ImageIcon(getClass().getResource("/recursos/Logo_cide.png"));
         imgPacman = new ImageIcon(getClass().getResource("/recursos/pacman_dcha.png"));
         imgFantasma1 = new ImageIcon(getClass().getResource("/recursos/fantasma4.png"));
-        imgFantasma2 = new ImageIcon(getClass().getResource("/recursos/fantasma7.png"));
+        imgFantasma2 = new ImageIcon(getClass().getResource("/recursos/fantasmaV.png"));
         imgCopa = new ImageIcon(getClass().getResource("/recursos/copa.png"));
     }
 
