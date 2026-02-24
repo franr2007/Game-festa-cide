@@ -1,10 +1,6 @@
 package pacman;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -45,7 +41,8 @@ public class Juego extends JFrame {
     public static final byte IZQUIERDA = 3;
     public static final byte DERECHA = 4;
 
-    // Constantes usadas para el metodo comprobar casilla, este dice que accion o acciones se van a realizar.
+    // Constantes usadas para el metodo comprobar casilla, este dice que accion o
+    // acciones se van a realizar.
     private static final byte PUEDES_MOVERTE = 0;
     private static final byte CHOQUE_PARED = 1;
     private static final byte CHOQUE_IGUALES = 2;
@@ -75,30 +72,34 @@ public class Juego extends JFrame {
     // Imágenes.
     private ImageIcon pacmanImagen;
     private final ImageIcon coleccionImgFantasmas[] = {
-        new ImageIcon(getClass().getResource("/recursos/fantasma1.png")),
-        new ImageIcon(getClass().getResource("/recursos/fantasma2.png")),
-        new ImageIcon(getClass().getResource("/recursos/fantasma3.png")),
-        new ImageIcon(getClass().getResource("/recursos/fantasma4.png")),
-        new ImageIcon(getClass().getResource("/recursos/fantasma5.png")),
-        new ImageIcon(getClass().getResource("/recursos/fantasma6.png")),
-        new ImageIcon(getClass().getResource("/recursos/fantasma7.png"))};
+            escalarImg(new ImageIcon(getClass().getResource("/recursos/fantasma1.png"))),
+            escalarImg(new ImageIcon(getClass().getResource("/recursos/fantasma2.png"))),
+            escalarImg(new ImageIcon(getClass().getResource("/recursos/fantasma3.png"))),
+            escalarImg(new ImageIcon(getClass().getResource("/recursos/fantasma4.png"))),
+            escalarImg(new ImageIcon(getClass().getResource("/recursos/fantasmaV.png"))) };
     private final ImageIcon imgCopa = new ImageIcon(getClass().getResource("/recursos/copa.png"));
     private final ImageIcon imgPacManArriba = new ImageIcon(getClass().getResource("/recursos/pacman_arriba.png"));
     private final ImageIcon imgPacManAbajo = new ImageIcon(getClass().getResource("/recursos/pacman_abajo.png"));
     private final ImageIcon imgPacManIzq = new ImageIcon(getClass().getResource("/recursos/pacman_izq.png"));
     private final ImageIcon imgPacManDcha = new ImageIcon(getClass().getResource("/recursos/pacman_dcha.png"));
-    private final ImageIcon imgPacManArribaCerrada = new ImageIcon(getClass().getResource("/recursos/pacman_arriba_cerrado.png"));
-    private final ImageIcon imgPacManAbajoCerrada = new ImageIcon(getClass().getResource("/recursos/pacman_abajo_cerrado.png"));
-    private final ImageIcon imgPacManIzqCerrada = new ImageIcon(getClass().getResource("/recursos/pacman_izq_cerrado.png"));
-    private final ImageIcon imgPacManDchaCerrada = new ImageIcon(getClass().getResource("/recursos/pacman_dcha_cerrado.png"));
+    private final ImageIcon imgPacManArribaCerrada = new ImageIcon(
+            getClass().getResource("/recursos/pacman_arriba_cerrado.png"));
+    private final ImageIcon imgPacManAbajoCerrada = new ImageIcon(
+            getClass().getResource("/recursos/pacman_abajo_cerrado.png"));
+    private final ImageIcon imgPacManIzqCerrada = new ImageIcon(
+            getClass().getResource("/recursos/pacman_izq_cerrado.png"));
+    private final ImageIcon imgPacManDchaCerrada = new ImageIcon(
+            getClass().getResource("/recursos/pacman_dcha_cerrado.png"));
     private final ImageIcon imgPacManMuerto = new ImageIcon(getClass().getResource("/recursos/pacman_muerto.png"));
     private final ImageIcon imgPared = new ImageIcon(getClass().getResource("/recursos/pared.png"));
+    private final ImageIcon imgParedFinal = escalarImg(imgPared);
     private final ImageIcon imgVidaPacman = new ImageIcon(getClass().getResource("/recursos/pacman_vida.png"));
-    private final ImageIcon imgVidaPacmanGastada = new ImageIcon(getClass().getResource("/recursos/pacman_vida_gastada.png"));
+    private final ImageIcon imgVidaPacmanGastada = new ImageIcon(
+            getClass().getResource("/recursos/pacman_vida_gastada.png"));
     private final ImageIcon coleccionImgPuntos[] = {
         new ImageIcon(getClass().getResource("/recursos/suelo.png")),
-        new ImageIcon(getClass().getResource("/recursos/punto_normal.png")),
-        new ImageIcon(getClass().getResource("/recursos/punto_grande.png"))
+        escalarImg(new ImageIcon(getClass().getResource("/recursos/Captura_de_pantalla_2026-02-23_171413-removebg-preview.png"))),
+        escalarImg(new ImageIcon(getClass().getResource("/recursos/image-removebg-preview.png")))
     };
 
     // Otros.
@@ -117,36 +118,36 @@ public class Juego extends JFrame {
     // ESCENARIO GENERAL (personajes y bloques). Orden Y, X.
     // 0 Pared, 1 vacio, 2 PacMan, 3 fantasma, +10 punto, +20 punto grande.
     private final static int ESCENARIO_ORIGINAL[][] = {
-        {0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0},
-        {0, 2, 1, 1, 1, 1, 0, 1, 1, 1, 1, 3, 0},
-        {0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0},
-        {0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0},
-        {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
-        {0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0},
-        {0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0},
-        {0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0},
-        {0, 1, 0, 1, 0, 1, 0, 3, 0, 1, 0, 1, 0},
-        {0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0},
-        {0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0},
-        {0, 1, 3, 1, 1, 1, 0, 1, 1, 1, 1, 3, 0},
-        {0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0}};
+            { 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0 },
+            { 0, 2, 1, 1, 1, 1, 0, 1, 1, 1, 1, 3, 0 },
+            { 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0 },
+            { 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0 },
+            { 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0 },
+            { 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0 },
+            { 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0 },
+            { 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0 },
+            { 0, 1, 0, 1, 0, 1, 0, 3, 0, 1, 0, 1, 0 },
+            { 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0 },
+            { 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0 },
+            { 0, 1, 3, 1, 1, 1, 0, 1, 1, 1, 1, 3, 0 },
+            { 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0 } };
 
     // ESCENARIO PUNTOS (los que se comen). 0 Vacio, 1 punto, 2 punto grande.
     // Prevalece el escenario de los personajes frente a este.
     private final static int ESCENARIO_PUNTOS_ORIGINAL[][] = {
-        {0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0},
-        {0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 2, 0},
-        {0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0},
-        {0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0},
-        {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
-        {0, 1, 0, 1, 1, 1, 2, 1, 1, 1, 0, 1, 0},
-        {0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0},
-        {0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0},
-        {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
-        {0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0},
-        {0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0},
-        {0, 2, 1, 1, 1, 1, 0, 1, 1, 1, 1, 2, 0},
-        {0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0}};
+            { 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0 },
+            { 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 2, 0 },
+            { 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0 },
+            { 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0 },
+            { 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0 },
+            { 0, 1, 0, 1, 1, 1, 2, 1, 1, 1, 0, 1, 0 },
+            { 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0 },
+            { 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0 },
+            { 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0 },
+            { 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0 },
+            { 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0 },
+            { 0, 2, 1, 1, 1, 1, 0, 1, 1, 1, 1, 2, 0 },
+            { 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0 } };
 
     // Obtener el numero de filas y columas totales.
     private final int FILAS = ESCENARIO_ORIGINAL.length;
@@ -276,7 +277,8 @@ public class Juego extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (!pausarHilos) {
-                    ArrayList<Byte> direcciones = getPosicionesValidas(pacman.getY(), pacman.getX(), pacman.getDireccion(), PACMAN);
+                    ArrayList<Byte> direcciones = getPosicionesValidas(pacman.getY(), pacman.getX(),
+                            pacman.getDireccion(), PACMAN);
 
                     switch (e.getExtendedKeyCode()) {
                         // DERECHA (D o flecha)
@@ -325,7 +327,8 @@ public class Juego extends JFrame {
         });
     }
 
-    // Al pulsar la letra M del teclado se muestra una imagen del tablero lógico. Solo consola.
+    // Al pulsar la letra M del teclado se muestra una imagen del tablero lógico.
+    // Solo consola.
     private void mostrarEscenarios() {
         System.out.println("Instantánea actual del mapa lógico:");
         for (int y = 0; y < FILAS; y++) {
@@ -346,7 +349,7 @@ public class Juego extends JFrame {
      * Hilo personaje.
      *
      * @param direccion Direccion a la que va el pacman. Esta viene representada
-     * en un byte.
+     *                  en un byte.
      */
     public synchronized void definirImagenPacman(byte direccion) {
         this.bocaAbierta = !this.bocaAbierta;
@@ -388,7 +391,7 @@ public class Juego extends JFrame {
                 int elemento = ESCENARIO_ACTUAL[y][x];
 
                 if (elemento == PARED) {
-                    etiqueta = new JLabel(imgPared);
+                    etiqueta = new JLabel(imgParedFinal);
 
                 } else if (elemento == VACIO) {
                     etiqueta = new JLabel(coleccionImgPuntos[ESCENARIO_ACTUAL_PUNTOS[y][x]]);
@@ -401,7 +404,8 @@ public class Juego extends JFrame {
 
                 } else if (elemento == FANTASMA) {
                     etiqueta = new JLabel();
-                    HiloPersonaje f = new HiloPersonaje(y, x, this, coleccionFantasmas.size(), FANTASMA, VELOCIDAD_FANTASMA);
+                    HiloPersonaje f = new HiloPersonaje(y, x, this, coleccionFantasmas.size(), FANTASMA,
+                            VELOCIDAD_FANTASMA);
                     coleccionFantasmas.add(f); // Añado el fantasma a una colección.
                 }
 
@@ -449,7 +453,7 @@ public class Juego extends JFrame {
                     etiqueta = (JLabel) panelCentral.getComponent(indiceGrid);
                     int i = getIDFantasma(y, x);
                     if (this.fantasmasVulnerables) {
-                        etiqueta.setIcon(coleccionImgFantasmas[6]);
+                        etiqueta.setIcon(coleccionImgFantasmas[4]);
                     } else {
                         if (i > coleccionImgFantasmas.length - 1) {
                             etiqueta.setIcon(coleccionImgFantasmas[0]);
@@ -491,11 +495,11 @@ public class Juego extends JFrame {
      * las coordenadas del objeto, para que este sepa en todo momento donde
      * esta.
      *
-     * @param y Coordenada Y actual del personaje.
-     * @param x Coordenada X actual del personaje.
+     * @param y         Coordenada Y actual del personaje.
+     * @param x         Coordenada X actual del personaje.
      * @param personaje Fantasma o PacMan.
      * @param direccion Dirección hacia la que va.
-     * @param id Identificador del fantasma. Al PacMan le da igual.
+     * @param id        Identificador del fantasma. Al PacMan le da igual.
      */
     protected synchronized void accionPersonaje(int y, int x, int personaje, byte direccion, int id) {
         if (!pausarHilos) {
@@ -519,7 +523,8 @@ public class Juego extends JFrame {
     }
 
     // Al llamar a este metodo se mueve el personaje en la direccion especificada.
-    private void casoMePuedoMover(int yAnterior, int xAnterior, int ySiguiente, int xSiguiente, int personaje, byte direccion, int idPersonaje) {
+    private void casoMePuedoMover(int yAnterior, int xAnterior, int ySiguiente, int xSiguiente, int personaje,
+            byte direccion, int idPersonaje) {
         ESCENARIO_ACTUAL[yAnterior][xAnterior] = VACIO;
         ESCENARIO_ACTUAL[ySiguiente][xSiguiente] = personaje;
 
@@ -545,10 +550,12 @@ public class Juego extends JFrame {
     private void casoDeChoque(int personaje, int id, byte direccion) {
         if (personaje == FANTASMA) { // REBOTE
             HiloPersonaje fantasma = coleccionFantasmas.get(id);
-            ArrayList<Byte> coleccionDireccionesPosibles = getPosicionesValidas(fantasma.getY(), fantasma.getX(), fantasma.getDireccion(), FANTASMA);
+            ArrayList<Byte> coleccionDireccionesPosibles = getPosicionesValidas(fantasma.getY(), fantasma.getX(),
+                    fantasma.getDireccion(), FANTASMA);
 
             int i = coleccionDireccionesPosibles.size();
-            if (i == 0) { // EXCEPCION - Este caso es en el que un fantasma choca contra otro y solo puede volver por donde ha venido.
+            if (i == 0) { // EXCEPCION - Este caso es en el que un fantasma choca contra otro y solo puede
+                          // volver por donde ha venido.
                 fantasma.setDireccion(direccionContraria(direccion));
             } else {
                 int valor = this.getValorAleatorio(i);
@@ -561,7 +568,8 @@ public class Juego extends JFrame {
     }
 
     // Lo que sucede si eres eliminado por un fantasma.
-    private void casoEliminado(int personaje, int xAnterior, int yAnterior, int xSiguiente, int ySiguiente, byte direccion) {
+    private void casoEliminado(int personaje, int xAnterior, int yAnterior, int xSiguiente, int ySiguiente,
+            byte direccion) {
         if (personaje == PACMAN || personaje == FANTASMA) {
 
             if (this.fantasmasVulnerables) {
@@ -636,9 +644,17 @@ public class Juego extends JFrame {
                     int decision = 0;
                     if (this.puntosTotales > this.recordAnterior) {
                         this.controlGuardado.guardar(this.puntosTotales);
-                        decision = JOptionPane.showConfirmDialog(this, "¡NUEVO RÉCORD!\n¡Ya no te quedan más vidas!" + "\nTu puntuacion es: " + this.puntosTotales + " has batido el récord anterior." + "\n¿Deseas empezar de nuevo?", "GAME OVER!", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, imgCopa);
+                        decision = JOptionPane.showConfirmDialog(this,
+                                "¡NUEVO RÉCORD!\n¡Ya no te quedan más vidas!" + "\nTu puntuacion es: "
+                                        + this.puntosTotales + " has batido el récord anterior."
+                                        + "\n¿Deseas empezar de nuevo?",
+                                "GAME OVER!", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, imgCopa);
                     } else {
-                        decision = JOptionPane.showConfirmDialog(this, "¡Ya no te quedan más vidas!" + "\nTu puntuacion es: " + this.puntosTotales + "\n¿Deseas empezar de nuevo?", "GAME OVER!", JOptionPane.YES_NO_OPTION);
+                        decision = JOptionPane
+                                .showConfirmDialog(this,
+                                        "¡Ya no te quedan más vidas!" + "\nTu puntuacion es: " + this.puntosTotales
+                                                + "\n¿Deseas empezar de nuevo?",
+                                        "GAME OVER!", JOptionPane.YES_NO_OPTION);
                     }
 
                     if (decision == JOptionPane.OK_OPTION) {
@@ -653,10 +669,11 @@ public class Juego extends JFrame {
 
     // Comprueba la casilla a la que se dirige el objeto y le dice que hacer.
     // Devuelve: int[] (orden, coordenada Y, coordenada X)
-    // 1º Orden - 0 se puede mover, 1 casoDeChoque pared, 2 casoDeChoque iguales, 3 comecocos casoEliminado.
+    // 1º Orden - 0 se puede mover, 1 casoDeChoque pared, 2 casoDeChoque iguales, 3
+    // comecocos casoEliminado.
     // 2º y 3º Coordenada Y, X a la que avanzará.
     private int[] comprobarCasilla(int y, int x, int personaje, byte direccion) {
-        int[] resultado = {PUEDES_MOVERTE, 0, 0};
+        int[] resultado = { PUEDES_MOVERTE, 0, 0 };
         int yFutura = y, xFutura = x, objeto;
 
         // Obtiene la posicion siguiente.
@@ -719,7 +736,8 @@ public class Juego extends JFrame {
         direcciones[2] = !isObstaculo(ESCENARIO_ACTUAL[y][x - 1 < 0 ? COLUMNAS - 1 : x - 1], personaje); // Izquierda
         direcciones[3] = !isObstaculo(ESCENARIO_ACTUAL[y][x + 1 >= COLUMNAS ? 0 : x + 1], personaje); // Derecha
 
-        // Esto permite al fantasma descartar el volver por el mismo camino por el que vino.
+        // Esto permite al fantasma descartar el volver por el mismo camino por el que
+        // vino.
         if (personaje == FANTASMA) {
             for (byte i = 0; i < direcciones.length; i++) {
                 if (i + 1 == direccionContr) {
@@ -806,9 +824,14 @@ public class Juego extends JFrame {
         int decision = 0;
         if (this.puntosTotales > this.recordAnterior) {
             this.controlGuardado.guardar(this.puntosTotales);
-            decision = JOptionPane.showConfirmDialog(this, "¡¡¡NUEVO RÉCORD!!!\nTu puntuacion es: " + this.puntosTotales + " has batido un nuevo récord." + "\n¿Continuamos?", "¡PERFECTO! !Nuevo récord!", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, imgCopa);
+            decision = JOptionPane.showConfirmDialog(this,
+                    "¡¡¡NUEVO RÉCORD!!!\nTu puntuacion es: " + this.puntosTotales + " has batido un nuevo récord."
+                            + "\n¿Continuamos?",
+                    "¡PERFECTO! !Nuevo récord!", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, imgCopa);
         } else {
-            decision = JOptionPane.showConfirmDialog(this, "¡¡HAS GANADO!!\nTu puntuacion es: " + this.puntosTotales + "\n¿Continuamos?", "¡PERFECTO!", JOptionPane.YES_NO_OPTION);
+            decision = JOptionPane.showConfirmDialog(this,
+                    "¡¡HAS GANADO!!\nTu puntuacion es: " + this.puntosTotales + "\n¿Continuamos?", "¡PERFECTO!",
+                    JOptionPane.YES_NO_OPTION);
         }
 
         if (decision == JOptionPane.OK_OPTION) {
@@ -933,5 +956,13 @@ public class Juego extends JFrame {
         } else {
             return (byte) rand.nextInt(valorLimite);
         }
+    }
+
+    //funcion para escalar las imagenes
+    public static ImageIcon escalarImg(ImageIcon img){
+        Image imgI = img.getImage();
+        Image imgIEscalada = imgI.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+        ImageIcon iconIEscalado = new ImageIcon(imgIEscalada);
+        return iconIEscalado;
     }
 }
