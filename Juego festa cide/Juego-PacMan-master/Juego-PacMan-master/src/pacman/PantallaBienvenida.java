@@ -164,9 +164,7 @@ public class PantallaBienvenida extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(PantallaBienvenida.this,
-                        "Joc programad per: Carlos Aguirre en colaboració con DaPelle y Millan.\n"
-                        + "Autor original: Toru Iwatani (1980)\nVersió: 12/03/2019"
-                        +"Este joc es pot jugar tant amb WASD o amb las flechas de direcció per moure al pacman",
+                        "Este joc es pot jugar tant amb WASD o amb las flechas de direcció per moure al pacman",
                         "Acerca de", JOptionPane.INFORMATION_MESSAGE, imgIcono);
             }
         });
