@@ -20,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.border.Border;
 
@@ -34,7 +35,7 @@ public class PantallaBienvenida extends JFrame {
     private GuardarCargar controlGuardado;
     private Random rand;
     private JPanel panelGlobal, panelMenu;
-    private JButton btnJugar, btnAcerca, btnSalir;
+    private JButton btnJugar, btnAcerca, btnSalir, btnFacil, btnMedio, btnDificil;
     private Icon imgIcono, imgPacman, imgFantasma1, imgFantasma2, imgCopa;
     private Icon[] coleccionPortadas;
     private final Font fuenteTexto = new Font("Default", Font.BOLD, 20);
@@ -69,10 +70,10 @@ public class PantallaBienvenida extends JFrame {
 
         // Portadas
         coleccionPortadas = new Icon[] {
-            new ImageIcon(getClass().getResource("/recursos/portada1.png")),
-            new ImageIcon(getClass().getResource("/recursos/portada2.png")),
-            new ImageIcon(getClass().getResource("/recursos/portada3.png")),
-            new ImageIcon(getClass().getResource("/recursos/portada4.png"))
+                new ImageIcon(getClass().getResource("/recursos/portada1.png")),
+                new ImageIcon(getClass().getResource("/recursos/portada2.png")),
+                new ImageIcon(getClass().getResource("/recursos/portada3.png")),
+                new ImageIcon(getClass().getResource("/recursos/portada4.png"))
         };
 
         // Fondo principal
@@ -87,6 +88,12 @@ public class PantallaBienvenida extends JFrame {
         btnJugar = new JButton("Jugar");
         btnAcerca = new JButton("Acerca");
         btnSalir = new JButton("Salir");
+
+        //Botones para luego
+        btnFacil = new JButton("Fácil");
+        btnMedio = new JButton("Medio");
+        btnDificil = new JButton("Difícil");
+
 
         panelMenu.add(btnJugar);
         panelMenu.add(btnAcerca);
@@ -131,7 +138,7 @@ public class PantallaBienvenida extends JFrame {
         Border bordeBlanco = BorderFactory.createLineBorder(Color.white, 2);
         Color colorBoton = new Color(32, 38, 117);
 
-        JButton[] botones = { btnJugar, btnAcerca, btnSalir };
+        JButton[] botones = { btnJugar, btnAcerca, btnSalir,btnFacil,btnMedio,btnDificil };
         Icon[] iconos = { imgPacman, imgFantasma1, imgFantasma2 };
 
         for (int i = 0; i < botones.length; i++) {
@@ -139,7 +146,9 @@ public class PantallaBienvenida extends JFrame {
             botones[i].setForeground(Color.white);
             botones[i].setBackground(colorBoton);
             botones[i].setBorder(bordeBlanco);
-            botones[i].setIcon(iconos[i]);
+            if (i <= 2) {
+                botones[i].setIcon(iconos[i]);
+            }
             botones[i].setFocusable(false);
             botones[i].setCursor(new Cursor(Cursor.HAND_CURSOR));
         }
@@ -155,8 +164,35 @@ public class PantallaBienvenida extends JFrame {
         btnJugar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Juego(recordAnterior);
-                dispose();
+                panelGlobal.removeAll();
+
+                JPanel panelDificultad = new JPanel();
+                panelDificultad.setLayout(new BorderLayout());
+
+                JPanel panelDificultadMedio = new JPanel();
+                panelDificultadMedio.setLayout(new GridLayout(3, 1));
+
+                JLabel textoDificultad = new JLabel("Selecciona la difícultad");
+                textoDificultad.setHorizontalAlignment(SwingConstants.HORIZONTAL);
+                textoDificultad.setFont(fuenteTexto);
+ 
+                btnFacil.addActionListener(h -> nuevoJuego(250));
+                btnMedio.addActionListener(h -> nuevoJuego(160));
+                btnDificil.addActionListener(h -> nuevoJuego(120)); 
+
+                // botones panel del medio
+                panelDificultadMedio.add(btnFacil);
+                panelDificultadMedio.add(btnMedio);
+                panelDificultadMedio.add(btnDificil);
+
+                // panel dificultad
+                panelDificultad.add(textoDificultad, BorderLayout.NORTH);
+                panelDificultad.add(panelDificultadMedio, BorderLayout.CENTER);
+
+                panelGlobal.add(panelDificultad);
+
+                panelGlobal.revalidate();
+                panelGlobal.repaint();
             }
         });
 
@@ -209,5 +245,10 @@ public class PantallaBienvenida extends JFrame {
     // Main
     public static void main(String[] args) {
         new PantallaBienvenida();
+    }
+
+    public void nuevoJuego(long x) {
+        new Juego(recordAnterior, x);
+        dispose();
     }
 }
