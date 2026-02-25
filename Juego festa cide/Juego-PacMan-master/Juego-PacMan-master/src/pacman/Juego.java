@@ -31,7 +31,7 @@ public class Juego extends JFrame {
     private boolean pausarHilos;
 
     // Control de velocidad.
-    private static final long VELOCIDAD_FANTASMA = 200;
+    private long VELOCIDAD_FANTASMA;
     private static final long VELOCIDAD_PACMAN = 140;
 
     // Direcciones de movimiento de pacman y fantasmas.
@@ -159,9 +159,10 @@ public class Juego extends JFrame {
      *
      * @param recordAnterior El record anteriormente conseguido.
      */
-    public Juego(int recordAnterior) {
+    public Juego(int recordAnterior, long VELOCIDAD_FANTASMA) {
         // Cargar el record anterior para saber si se ha batido.
         this.recordAnterior = recordAnterior;
+        this.VELOCIDAD_FANTASMA=VELOCIDAD_FANTASMA;
 
         // Definir los puntos totales.
         this.puntosTotales = 0;
