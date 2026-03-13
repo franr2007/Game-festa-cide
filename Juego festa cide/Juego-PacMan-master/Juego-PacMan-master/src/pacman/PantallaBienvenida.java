@@ -49,7 +49,7 @@ public class PantallaBienvenida extends JFrame {
         this.eventos();
 
         // Configuración de ventana
-        this.setTitle("PacMan");
+        this.setTitle("JUEGO-CIDE-COMECALABAZAS");
         this.setResizable(false);
         this.pack();
         this.setSize(526, 615);
@@ -72,12 +72,11 @@ public class PantallaBienvenida extends JFrame {
         coleccionPortadas = new Icon[] {
                 new ImageIcon(getClass().getResource("/recursos/portada1.png")),
                 new ImageIcon(getClass().getResource("/recursos/portada2.png")),
-                new ImageIcon(getClass().getResource("/recursos/portada3.png")),
-                new ImageIcon(getClass().getResource("/recursos/portada4.png"))
+                new ImageIcon(getClass().getResource("/recursos/portada3.png"))
         };
 
         // Fondo principal
-        JLabel fondoGlobal = new JLabel(new ImageIcon(getClass().getResource("/recursos/fondo-removebg-preview.png")));
+        JLabel fondoGlobal = new JLabel(new ImageIcon(getClass().getResource("/recursos/fondo.png")));
         fondoGlobal.setLayout(new BorderLayout());
 
         // Panel de botones
@@ -104,10 +103,11 @@ public class PantallaBienvenida extends JFrame {
 
         // Portada y record
         lblPortada = new JLabel(coleccionPortadas[rand.nextInt(coleccionPortadas.length)], JLabel.CENTER);
+        lblPortada.setBorder(BorderFactory.createEmptyBorder(20,0,0,0));
         lblPuntuacionMaxima = new JLabel("", JLabel.CENTER);
 
-        fondoGlobal.add(lblPortada, BorderLayout.CENTER);
         fondoGlobal.add(lblPuntuacionMaxima, BorderLayout.NORTH);
+        fondoGlobal.add(lblPortada, BorderLayout.NORTH);
 
         // Agregar el fondo al panelGlobal
         panelGlobal.setLayout(new BorderLayout());
@@ -134,6 +134,7 @@ public class PantallaBienvenida extends JFrame {
     // Estilos de botones y labels
     private void definirEstilos() {
         panelGlobal.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        panelGlobal.setBackground(Color.white);
 
         Border bordeBlanco = BorderFactory.createLineBorder(Color.white, 2);
         Color colorBoton = new Color(32, 38, 117);
@@ -200,7 +201,12 @@ public class PantallaBienvenida extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(PantallaBienvenida.this,
-                        "Este joc es pot jugar tant amb WASD o amb las flechas de direcció per moure al pacman",
+                        "Aquest joc està inspirat en el clàssic estil de Pac-Man. L'objectiu és recórrer el laberint recollint tots els punts mentre evites els enemigos.\r\n" + //
+                                                        "\r\n" + //
+                                                        "Fes servir els controls WASD o les flechetas de direcció per moure a tu personatge pel mapa. Si arreplegues tots els punts, guanyes la partida. Però vés amb compte: si un enemic t'arriba, perdràs una vida.\r\n" + //
+                                                        "\r\n" + //
+                                                        "Diverteix-te i intenta aconseguir la puntuació més alta!\r\n" + //
+                                                        "",
                         "Acerca de", JOptionPane.INFORMATION_MESSAGE, imgIcono);
             }
         });
